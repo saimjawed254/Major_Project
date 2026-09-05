@@ -1,0 +1,22 @@
+# Environments
+.env
+.env.local
+
+# Python
+__pycache__/
+*.pyc
+venv/
+env/
+
+# Unused heavy ONNX models
+model_weights/efficientnet_v2_s.onnx
+model_weights/efficientnet_v2_s.onnx.data
+model_weights/wideresnet_quantized.onnx
+
+# Frontend heavy models
+frontend/public/model/efficientnet_v2_s.onnx
+frontend/public/model/efficientnet_v2_s.onnx.data
+frontend/public/model/wideresnet_quantized.onnx
+
+# Jupyter Notebook checkpoints
+.ipynb_checkpoints/

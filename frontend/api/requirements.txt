@@ -1,0 +1,4 @@
+earthengine-api==0.1.412
+google-auth==2.32.0
+numpy==1.26.4
+Pillow==10.4.0
