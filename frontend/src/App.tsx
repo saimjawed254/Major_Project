@@ -11,16 +11,7 @@ function App() {
   const [errorMsg, setErrorMsg] = useState('');
   const [customImageUrl, setCustomImageUrl] = useState<string | null>(null);
 
-  const handleFileUpload = (e: React.ChangeEvent<HTMLInputElement>) => {
-    const file = e.target.files?.[0];
-    if (file) {
-      const reader = new FileReader();
-      reader.onload = (event) => {
-        setCustomImageUrl(event.target?.result as string);
-      };
-      reader.readAsDataURL(file);
-    }
-  };
+
 
   const clearCustomImage = () => {
     setCustomImageUrl(null);

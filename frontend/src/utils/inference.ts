@@ -111,12 +111,10 @@ export async function predictCell(imageData: ImageData): Promise<PredictionResul
   
   // 3. Softmax & Argmax
   let maxLogit = -Infinity;
-  let maxIndex = 0;
   
   for (let i = 0; i < output.length; i++) {
     if (output[i] > maxLogit) {
       maxLogit = output[i];
-      maxIndex = i;
     }
   }
   

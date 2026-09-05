@@ -20,3 +20,7 @@ frontend/public/model/wideresnet_quantized.onnx
 
 # Jupyter Notebook checkpoints
 .ipynb_checkpoints/
+*.ipynb
+# Node
+node_modules/
+dist/
