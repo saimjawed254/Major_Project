@@ -24,3 +24,8 @@ frontend/public/model/wideresnet_quantized.onnx
 # Node
 node_modules/
 dist/
+
+# Project Specific Data & Reports
+data/
+50_target_coordinates.md
+project_report.md

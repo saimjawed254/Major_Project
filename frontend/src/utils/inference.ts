@@ -19,11 +19,12 @@ export const CLASS_COLORS = [
   'rgba(59, 130, 246, 0.4)'    // Water (Blue)
 ];
 
-let session: ort.InferenceSession | null = null;
+let sessionBase: ort.InferenceSession | null = null;
+let sessionFinetuned: ort.InferenceSession | null = null;
 let isLoading = false;
 
 export async function initModel() {
-  if (session) return true;
+  if (sessionBase && sessionFinetuned) return true;
   if (isLoading) {
     while (isLoading) {
       await new Promise(r => setTimeout(r, 100));
@@ -33,18 +34,24 @@ export async function initModel() {
   
   isLoading = true;
   try {
-    if (!session) {
-      console.log('Loading ONNX Model...');
+    if (!sessionBase || !sessionFinetuned) {
+      console.log('Loading ONNX Models...');
       
-      // Load the quantized EuroSAT EfficientNetV2 model
-      const modelResponse = await fetch('/model/efficientnet_quantized.onnx');
-      const modelBuffer = await modelResponse.arrayBuffer();
-      
-      session = await ort.InferenceSession.create(modelBuffer, {
+      // Load the baseline model
+      const baseResponse = await fetch('/model/efficientnet_quantized.onnx');
+      const baseBuffer = await baseResponse.arrayBuffer();
+      sessionBase = await ort.InferenceSession.create(baseBuffer, {
+        executionProviders: ['wasm']
+      });
+
+      // Load the fine-tuned model
+      const ftResponse = await fetch('/model/efficientnet_quantized_3.onnx');
+      const ftBuffer = await ftResponse.arrayBuffer();
+      sessionFinetuned = await ort.InferenceSession.create(ftBuffer, {
         executionProviders: ['wasm']
       });
       
-      console.log('Quantized EfficientNet ONNX Model Loaded Successfully!');
+      console.log('Both ONNX Models Loaded Successfully!');
     }
     return true;
   } catch (error) {
@@ -91,10 +98,11 @@ export interface PredictionResult {
   uncertainty: number;
 }
 
-export async function predictCell(imageData: ImageData): Promise<PredictionResult> {
-  if (!session) {
+export async function predictCell(imageData: ImageData, modelType: 'base' | 'finetuned' = 'base'): Promise<PredictionResult> {
+  if (!sessionBase || !sessionFinetuned) {
     await initModel();
   }
+  const session = modelType === 'base' ? sessionBase : sessionFinetuned;
   if (!session) {
     throw new Error("Model failed to load");
   }
