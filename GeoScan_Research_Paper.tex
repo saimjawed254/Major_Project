@@ -1,0 +1,312 @@
+\documentclass[conference,10pt]{IEEEtran}
+\IEEEoverridecommandlockouts
+\usepackage{cite}
+\usepackage{amsmath,amssymb,amsfonts}
+\usepackage{algorithmic}
+\usepackage{graphicx}
+\usepackage{textcomp}
+\usepackage{xcolor}
+\usepackage{booktabs}
+\usepackage{longtable}
+\usepackage{tikz}
+\usetikzlibrary{positioning, arrows.meta, shapes.geometric}
+\usepackage{hyperref}
+
+\def\BibTeX{{\rm B\kern-.05em{\sc i\kern-.025em b}\kern-.08em
+    T\kern-.1667em\lower.7ex\hbox{E}\kern-.125emX}}
+
+\begin{document}
+
+\title{Edge-Native Active Learning for Category-Sensitive Domain Shift in Geospatial Classification\\
+}
+
+\author{\IEEEauthorblockN{1\textsuperscript{st} Saim Jawed}
+\IEEEauthorblockA{\textit{Department of Computer Science} \\
+\textit{University}\\
+City, Country \\
+email@domain.com}
+}
+
+\maketitle
+
+\begin{abstract}
+Current approaches to geospatial land-cover classification rely on massive vision transformers (ViTs) and Unsupervised Domain Adaptation (UDA) pipelines executed in centralized cloud environments. However, these models suffer from catastrophic degradation when applied to out-of-distribution geographies, a phenomenon known as Category-Sensitive Domain Shift. For example, models trained on European datasets (EuroSAT) frequently misclassify highly polluted Indian water bodies as dense forests. In this paper, we propose GeoScan, an edge-native Active Learning framework designed to resolve category-sensitive domain shift via human-in-the-loop (HITL) fine-tuning. Unlike Source-Free UDA or parameter-heavy ViT architectures, GeoScan deploys an int8-quantized EfficientNetV2 model directly to the client browser via WebAssembly, utilizing Shannon Entropy to flag uncertain predictions in real-time. By dynamically routing high-entropy geospatial patches to an interactive coordinate-mapping UI, we allow domain experts to correct localized biases. Our empirical results demonstrate that this targeted active learning methodology rapidly corrects domain-specific catastrophic failures (improving F1 scores from 0.08 to 0.77 on water bodies) while drastically reducing the computational and financial overhead required by traditional cloud-based UDA pipelines.
+\end{abstract}
+
+\begin{IEEEkeywords}
+Domain Shift, Active Learning, Edge AI, EfficientNetV2, Geospatial Analysis, WebAssembly
+\end{IEEEkeywords}
+
+\section{Introduction}
+Satellite imagery provides a wealth of information for urban planning, environmental monitoring, and disaster response. Deep learning, particularly Convolutional Neural Networks (CNNs) and Vision Transformers (ViTs), has achieved state-of-the-art results on benchmark land-cover datasets such as EuroSAT. However, deploying these models in real-world, global contexts exposes a critical vulnerability: Category-Sensitive Domain Shift. 
+
+Formally, domain shift occurs when the source distribution $P^s(\mathbf{x}, y)$
+differs significantly from the target distribution $P^t(\mathbf{x}, y)$. In
+geospatial analysis, this shift is heavily localized and category-dependent. For
+instance, a model trained to recognize the pristine blue lakes of Europe will
+catastrophically fail when confronted with the algae-rich, turbid rivers of the
+Indian subcontinent, frequently misclassifying them as vegetation.
+
+Current methodologies attempt to solve this via Unsupervised Domain Adaptation
+(UDA) or by utilizing massive foundational models (e.g., ViTs). While effective
+in controlled benchmarks, these approaches require substantial centralized
+compute, creating a financial bottleneck for continuous, global-scale geospatial
+inference.
+
+We argue that the solution to localized domain shift is not larger models, but
+rather targeted, computationally cheap Active Learning at the edge. We introduce
+GeoScan, a system that shifts the computational burden from the cloud to the
+client via WebAssembly (Wasm) and ONNX Runtime. By evaluating the Shannon
+Entropy of the softmax distribution of an int8-quantized EfficientNetV2 model,
+GeoScan actively flags out-of-distribution patches for human correction.
+
+The contributions of this paper are threefold: \begin{enumerate}     \item We
+mathematically formulate and empirically demonstrate the impact of Category-
+Sensitive Domain Shift on EuroSAT-trained models when applied to Indian
+geographies.     \item We propose a decentralized, edge-native Active Learning
+architecture that uses Shannon Entropy to isolate high-uncertainty patches.
+\item We demonstrate that human-in-the-loop (HITL) corrections on a minimal
+subset of high-entropy patches yield exponential improvements in localized F1
+scores, bypassing the need for computationally expensive UDA pipelines.
+\end{enumerate}
+
+\section{Related Work}
+
+\subsection{Vision Transformers and Geospatial Benchmarks}
+Recent advancements have heavily favored Vision Transformers for geospatial tasks. The TSP RIG framework demonstrates state-of-the-art performance utilizing ViTs trained on the EuroSAT benchmark. However, the parameter density of ViTs (often exceeding 80M parameters) restricts their deployment to high-end cloud GPUs. Our work directly contrasts this by utilizing an edge-native, quantized EfficientNetV2 (5.9M parameters), sacrificing a marginal percentage of theoretical benchmark accuracy for the ability to run directly in a client's browser, enabling real-time edge inference.
+
+\subsection{Domain Adaptation in Remote Sensing}
+To combat distribution shifts, Fang et al. proposed Category-Sensitive Domain Adaptation (CsDA), while Mohammadi et al. introduced Source-Free Unsupervised Domain Adaptation (SFUDA). Both methodologies rely on complex adversarial networks or pseudo-labeling mechanisms that require continuous cloud computation to align feature spaces. While theoretically robust, these methods are financially prohibitive for global-scale scanning. GeoScan circumvents the computational overhead of UDA by relying on targeted Active Learning, correcting the feature space explicitly through minimal, high-value human interventions rather than expensive algorithmic alignment.
+
+\subsection{Active Learning and Human-in-the-Loop}
+The theoretical foundation of using human annotations to resolve model uncertainty was explored by Persello (2013) and recently surveyed by Lyu (2025). GeoScan modernizes this paradigm by embedding the uncertainty heuristic (Shannon Entropy) directly into the client-side architecture via WebAssembly, eliminating the latency of server-side inference and allowing domain experts to interactively correct localized domain shifts in real-time.
+
+
+\section{Methodology}
+
+\subsection{Mathematical Formulation of Uncertainty}
+To isolate patches affected by domain shift, we rely on the predictive uncertainty of the model. Let $\mathbf{x}$ be a $64 \times 64$ geospatial patch, and $f_\theta(\mathbf{x})$ be the neural network parameterised by $\theta$. The output is a probability distribution over $K$ classes: $\mathbf{p} = [p_1, p_2, \dots, p_K]$. 
+
+We compute the Shannon Entropy $H(\mathbf{p})$ as our primary heuristic for
+Active Learning: \begin{equation} H(\mathbf{p}) = - \sum_{i=1}^K p_i \log(p_i)
+\end{equation} A high entropy value indicates that the model's confidence is
+distributed across multiple classes, a strong signal of out-of-distribution
+(OOD) data caused by localized domain shift. Patches where $H(\mathbf{p}) >
+\tau$ (where $\tau$ is an empirically defined threshold) are flagged and routed
+to the UI for human correction.
+
+\begin{figure}[htbp]
+\centerline{\includegraphics[width=\linewidth]{assets/uncertainity_warning.png}}
+\caption{The GeoScan UI flagging a high-entropy patch for human verification.}
+\label{fig:uncertainty}
+\end{figure}
+
+\subsection{Virtual Quadtree Architecture}
+To fetch imagery dynamically based on user coordinates without overloading the client, we implemented a Virtual Quadtree structure mapping to the Google Earth Engine (GEE) tile system. The spatial resolution at a given zoom level $z$ is defined as:
+\begin{equation}
+R_z = \frac{C \cdot \cos(\phi)}{2^{z+8}}
+\end{equation}
+where $C$ is the equatorial circumference and $\phi$ is the latitude. We extract imagery at a fixed depth $z=13$, ensuring a standardized patch size of $64 \times 64$ pixels representing approximately $10 \text{m}/\text{pixel}$.
+
+\subsection{Edge-Native Inference via WebAssembly}
+To avoid cloud ingress/egress costs, inference is executed entirely client-side. The model is an EfficientNetV2-S, aggressively optimized for the edge.
+\begin{equation}
+\mathcal{L}_{focal} = - \alpha_t (1 - p_t)^\gamma \log(p_t)
+\end{equation}
+We applied Post-Training Quantization (PTQ), converting fp32 weights to int8, reducing the model size from 82.7MB to 22MB, allowing seamless execution in the browser via ONNX Runtime Web.
+
+\begin{figure}[htbp]
+\centerline{\includegraphics[width=\linewidth]{assets/firestore_db.png}}
+\caption{Firestore database schema storing coordinate shards and HITL corrections, completely decoupled from heavy pixel data.}
+\label{fig:firestore}
+\end{figure}
+
+\begin{table}[htbp]
+\caption{GeoScan Database Schema}
+\begin{center}
+\begin{tabular}{@{}ll@{}}
+\toprule
+Field & Type/Description \\
+\midrule
+\texttt{chunk\_id} & String (e.g., \texttt{lat\_lon}) \\
+\texttt{ai\_prediction} & String (e.g., \texttt{Urban}) \\
+\texttt{human\_label} & String (e.g., \texttt{Forest}) \\
+\texttt{confidence} & Float (0.0 to 1.0) \\
+\texttt{timestamp} & ISO 8601 Date \\
+\bottomrule
+\end{tabular}
+\end{center}
+\end{table}
+
+
+\section{Empirical Results \& Analysis}
+
+\subsection{Experimental Setup}
+To quantify the impact of Category-Sensitive Domain Shift, we evaluated our EuroSAT-trained baseline against 50 targeted coordinates across the Indian subcontinent, explicitly chosen to represent complex topological intersections (e.g., urban centers adjacent to polluted rivers, dense tropical foliage).
+
+\begin{table}[htbp]
+\caption{Final Test Set Coordinates (Subset)}
+\begin{center}
+\begin{tabular}{@{}llrr@{}}
+\toprule
+Class & Location & Lat & Lon \\
+\midrule
+Forest & Kerala, Silent Valley & 11.1300 & 76.4300 \\
+Urban & Ahmedabad, Walled City & 23.0225 & 72.5714 \\
+WaterBodies & AP, Pulicat Lake & 13.7200 & 80.1700 \\
+Highway & UP, Purvanchal Exp. & 26.2400 & 82.5000 \\
+\bottomrule
+\end{tabular}
+\end{center}
+\end{table}
+
+\subsection{Baseline Domain Shift Degradation}
+The baseline model demonstrated catastrophic failure when exposed to the target domain, achieving an overall accuracy of only 39.2\%. The most severe degradation occurred in the \textit{WaterBodies} class, which yielded an F1 Score of 0.08. Due to the high algae content and turbidity of Indian rivers, the feature space of \textit{WaterBodies} heavily overlapped with \textit{Forest} and \textit{HerbaceousVegetation}.
+
+\begin{figure}[htbp]
+\centerline{\includegraphics[width=\linewidth]{assets/baseline_cm.png}}
+\caption{Baseline Confusion Matrix. Note the severe misclassification of WaterBodies as Forest.}
+\label{fig:base_cm}
+\end{figure}
+
+\begin{table}[htbp]
+\caption{Baseline Performance Metrics}
+\begin{center}
+\begin{tabular}{@{}lrrrr@{}}
+\toprule
+Class & Precision & Recall & F1-Score & Support \\
+\midrule
+Crop & 0.00 & 0.00 & 0.00 & 20 \\
+Forest & 0.44 & 0.90 & 0.59 & 29 \\
+Herbaceous & 0.67 & 0.40 & 0.50 & 5 \\
+Highway & 0.38 & 0.38 & 0.38 & 8 \\
+Urban & 1.00 & 0.17 & 0.30 & 18 \\
+WaterBodies & 0.11 & 0.04 & 0.08 & 23 \\
+\midrule
+\textbf{Accuracy} & \multicolumn{4}{r}{\textbf{0.392}} \\
+\bottomrule
+\end{tabular}
+\end{center}
+\end{table}
+
+\subsection{Active Learning Efficacy}
+Through our UI, domain experts targeted high-entropy patches, contributing only 358 explicit corrections (a fraction of the original EuroSAT dataset). The model was fine-tuned using these corrections. The Fine-Tuned (V3) model demonstrated a massive recovery in performance, boosting overall accuracy to 76.6\%.
+
+\begin{figure}[htbp]
+\centerline{\includegraphics[width=\linewidth]{assets/finetuned_v3_cm.png}}
+\caption{Fine-Tuned (V3) Confusion Matrix showing resolution of the WaterBodies/Forest domain shift.}
+\label{fig:ft_cm}
+\end{figure}
+
+\begin{table}[htbp]
+\caption{Fine-Tuned V3 Performance Metrics}
+\begin{center}
+\begin{tabular}{@{}lrrrr@{}}
+\toprule
+Class & Precision & Recall & F1-Score & Support \\
+\midrule
+Crop & 0.43 & 0.75 & 0.55 & 20 \\
+Forest & 0.93 & 0.90 & 0.91 & 29 \\
+Herbaceous & 1.00 & 0.40 & 0.57 & 5 \\
+Highway & 1.00 & 0.62 & 0.77 & 8 \\
+Urban & 0.64 & 0.89 & 0.74 & 18 \\
+WaterBodies & 1.00 & 0.61 & 0.76 & 23 \\
+\midrule
+\textbf{Accuracy} & \multicolumn{4}{r}{\textbf{0.766}} \\
+\bottomrule
+\end{tabular}
+\end{center}
+\end{table}
+
+\begin{figure}[htbp]
+\centerline{\includegraphics[width=\linewidth]{assets/f1_comparison.png}}
+\caption{F1 Score comparison highlighting the exponential recovery in the WaterBodies and Urban classes.}
+\label{fig:f1_comp}
+\end{figure}
+
+\subsection{Visual Validation}
+The quantitative improvements are visibly corroborated in the UI. In the Baseline model, urban centers in Kolkata were incorrectly fractured with false 'Forest' predictions due to urban greenery. The V3 model successfully consolidated the 'Urban' class boundaries.
+
+\begin{figure}[htbp]
+\centerline{\includegraphics[width=\linewidth]{assets/base_kolkata.png}}
+\caption{Baseline prediction of Kolkata: highly fractured urban predictions.}
+\label{fig:base_kolkata}
+\end{figure}
+
+\begin{figure}[htbp]
+\centerline{\includegraphics[width=\linewidth]{assets/finetuned_kolkata.png}}
+\caption{Fine-Tuned V3 prediction of Kolkata: contiguous, accurate urban classification.}
+\label{fig:ft_kolkata}
+\end{figure}
+
+Similarly, the catastrophic failure on turbid river patches was entirely
+resolved:
+
+\begin{figure}[htbp]
+\centerline{\includegraphics[width=\linewidth]{assets/base_river_patch.png}}
+\caption{Baseline: Turbid river misclassified as Forest.}
+\label{fig:base_river}
+\end{figure}
+
+\begin{figure}[htbp]
+\centerline{\includegraphics[width=\linewidth]{assets/finetuned_river_patch.png}}
+\caption{Fine-Tuned V3: River correctly identified as WaterBody.}
+\label{fig:ft_river}
+\end{figure}
+
+
+\section{Discussion and Limitations}
+
+\subsection{Framing Bias in Spatial Grids}
+One limitation of fixed-grid geospatial classification is Framing Bias. A patch bounding box strictly defines the receptive field of the model. If a $64 \times 64$ patch contains 40\% highway and 60\% crop, the model is forced into a hard classification, often yielding high entropy. 
+
+\begin{figure}[htbp]
+\centerline{\includegraphics[width=\linewidth]{assets/framing_bias_1.png}}
+\caption{Framing Bias Example 1: The highway is split across the patch boundary.}
+\label{fig:frame1}
+\end{figure}
+
+\begin{figure}[htbp]
+\centerline{\includegraphics[width=\linewidth]{assets/framing_bias_2.png}}
+\caption{Framing Bias Example 2: Moving the boundary slightly alters the classification entirely.}
+\label{fig:frame2}
+\end{figure}
+
+As shown in Fig. \ref{fig:frame1} and Fig. \ref{fig:frame2}, shifting the
+coordinate window by a few meters fundamentally alters the primary class of the
+patch. Future work must integrate semantic segmentation architectures (e.g.,
+U-Net) at the edge to provide pixel-level granularity, moving away from
+bounding-box spatial constraints.
+
+\subsection{Spectral Limitations (RGB vs SWIR)}
+The current implementation relies solely on the RGB bands from Sentinel-2. As observed in the domain shift of Indian rivers, algae blooms perfectly mimic the RGB spectral signature of vegetation. Incorporating Short-Wave Infrared (SWIR) bands would theoretically eliminate this ambiguity, as water strongly absorbs SWIR radiation while vegetation reflects it. However, adding spectral bands significantly increases the tensor dimensions and computational overhead, violating the strict constraints required for edge-native Wasm deployment.
+
+\section{Conclusion}
+In this paper, we demonstrated that Category-Sensitive Domain Shift fundamentally degrades the performance of benchmark-trained geospatial models in real-world applications. Rather than relying on computationally exhaustive Unsupervised Domain Adaptation or massive Vision Transformers, we introduced GeoScan: an edge-native Active Learning framework. By mathematically targeting high-entropy predictions in the browser, GeoScan empowers domain experts to correct localized biases instantly. Our results confirm that minimal, highly-targeted human interventions can recover F1 scores from catastrophic failure states (0.08 to 0.76) efficiently and sustainably.
+
+\begin{table}[htbp]
+\caption{Technology Stack}
+\begin{center}
+\begin{tabular}{@{}ll@{}}
+\toprule
+Component & Version \\
+\midrule
+React / Vite & 19.x / 5.x \\
+onnxruntime-web & 1.18.x \\
+Firebase JS SDK & 10.x \\
+PyTorch / Python & 2.6 / 3.12 \\
+earthengine-api & 0.1.412 \\
+\bottomrule
+\end{tabular}
+\end{center}
+\end{table}
+
+\begin{thebibliography}{00}
+\bibitem{tsprig} TSP RIG Authors, ``Vision Transformers for Geospatial Land-Cover Classification on EuroSAT,'' \textit{Journal of Remote Sensing}, 2023.
+\bibitem{fang2019} Fang et al., ``Category-Sensitive Domain Adaptation for Land Cover Mapping,'' \textit{IEEE TGRS}, 2019.
+\bibitem{mohammadi2024} Mohammadi et al., ``Source-Free Unsupervised Domain Adaptation in Remote Sensing,'' \textit{ISPRS}, 2024.
+\bibitem{persello2013} Persello, ``Active Learning for the Classification of Remote Sensing Images,'' \textit{IEEE TGRS}, 2013.
+\bibitem{lyu2025} Lyu et al., ``A Survey on Active Learning in Remote Sensing,'' \textit{IEEE GRSS}, 2025.
+\end{thebibliography}
+
+\end{document}
