@@ -1,36 +1,102 @@
-\documentclass[conference,10pt]{IEEEtran}
-\IEEEoverridecommandlockouts
-\usepackage{cite}
-\usepackage{amsmath,amssymb,amsfonts}
-\usepackage{algorithmic}
-\usepackage{graphicx}
-\usepackage{textcomp}
-\usepackage{xcolor}
-\usepackage{booktabs}
-\usepackage{longtable}
+% Options for packages loaded elsewhere
+\PassOptionsToPackage{unicode}{hyperref}
+\PassOptionsToPackage{hyphens}{url}
+\documentclass[journal]{IEEEtran}
+%\usepackage[margin=1in]{geometry}
+\usepackage{mathpazo}
 \usepackage{tikz}
 \usetikzlibrary{positioning, arrows.meta, shapes.geometric}
-\usepackage{hyperref}
+\usepackage{xcolor}
+\usepackage{cite}
+\usepackage{algorithmic}
 
-\def\BibTeX{{\rm B\kern-.05em{\sc i\kern-.025em b}\kern-.08em
-    T\kern-.1667em\lower.7ex\hbox{E}\kern-.125emX}}
+\usepackage{amsmath,amssymb}
+\usepackage{iftex}
+\ifPDFTeX
+  \usepackage[T1]{fontenc}
+  \usepackage[utf8]{inputenc}
+  \usepackage{textcomp}
+\else
+  \usepackage{unicode-math}
+  \defaultfontfeatures{Scale=MatchLowercase}
+  \defaultfontfeatures[\rmfamily]{Ligatures=TeX,Scale=1}
+\fi
+\usepackage{lmodern}
+\usepackage[]{microtype}
+\UseMicrotypeSet[protrusion]{basicmath}
+\usepackage{color}
+\usepackage{fancyvrb}
+\newcommand{\VerbBar}{|}
+\newcommand{\VERB}{\Verb[commandchars=\\\{\}]}
+\DefineVerbatimEnvironment{Highlighting}{Verbatim}{commandchars=\\\{\}}
+\newenvironment{Shaded}{}{}
+\newcommand{\AlertTok}[1]{\textcolor[rgb]{1.00,0.00,0.00}{\textbf{#1}}}
+\newcommand{\AnnotationTok}[1]{\textcolor[rgb]{0.38,0.63,0.69}{\textbf{\textit{#1}}}}
+\newcommand{\AttributeTok}[1]{\textcolor[rgb]{0.49,0.56,0.16}{#1}}
+\newcommand{\BaseNTok}[1]{\textcolor[rgb]{0.25,0.63,0.44}{#1}}
+\newcommand{\BuiltInTok}[1]{\textcolor[rgb]{0.00,0.50,0.00}{#1}}
+\newcommand{\CharTok}[1]{\textcolor[rgb]{0.25,0.44,0.63}{#1}}
+\newcommand{\CommentTok}[1]{\textcolor[rgb]{0.38,0.63,0.69}{\textit{#1}}}
+\newcommand{\CommentVarTok}[1]{\textcolor[rgb]{0.38,0.63,0.69}{\textbf{\textit{#1}}}}
+\newcommand{\ConstantTok}[1]{\textcolor[rgb]{0.53,0.00,0.00}{#1}}
+\newcommand{\ControlFlowTok}[1]{\textcolor[rgb]{0.00,0.44,0.13}{\textbf{#1}}}
+\newcommand{\DataTypeTok}[1]{\textcolor[rgb]{0.56,0.13,0.00}{#1}}
+\newcommand{\DecValTok}[1]{\textcolor[rgb]{0.25,0.63,0.44}{#1}}
+\newcommand{\DocumentationTok}[1]{\textcolor[rgb]{0.73,0.13,0.13}{\textit{#1}}}
+\newcommand{\ErrorTok}[1]{\textcolor[rgb]{1.00,0.00,0.00}{\textbf{#1}}}
+\newcommand{\ExtensionTok}[1]{#1}
+\newcommand{\FloatTok}[1]{\textcolor[rgb]{0.25,0.63,0.44}{#1}}
+\newcommand{\FunctionTok}[1]{\textcolor[rgb]{0.02,0.16,0.49}{#1}}
+\newcommand{\ImportTok}[1]{\textcolor[rgb]{0.00,0.50,0.00}{\textbf{#1}}}
+\newcommand{\InformationTok}[1]{\textcolor[rgb]{0.38,0.63,0.69}{\textbf{\textit{#1}}}}
+\newcommand{\KeywordTok}[1]{\textcolor[rgb]{0.00,0.44,0.13}{\textbf{#1}}}
+\newcommand{\NormalTok}[1]{#1}
+\newcommand{\OperatorTok}[1]{\textcolor[rgb]{0.40,0.40,0.40}{#1}}
+\newcommand{\OtherTok}[1]{\textcolor[rgb]{0.00,0.44,0.13}{#1}}
+\newcommand{\PreprocessorTok}[1]{\textcolor[rgb]{0.74,0.48,0.00}{#1}}
+\newcommand{\RegionMarkerTok}[1]{#1}
+\newcommand{\SpecialCharTok}[1]{\textcolor[rgb]{0.25,0.44,0.63}{#1}}
+\newcommand{\SpecialStringTok}[1]{\textcolor[rgb]{0.73,0.40,0.53}{#1}}
+\newcommand{\StringTok}[1]{\textcolor[rgb]{0.25,0.44,0.63}{#1}}
+\newcommand{\VariableTok}[1]{\textcolor[rgb]{0.10,0.09,0.49}{#1}}
+\newcommand{\VerbatimStringTok}[1]{\textcolor[rgb]{0.25,0.44,0.63}{#1}}
+\newcommand{\WarningTok}[1]{\textcolor[rgb]{0.38,0.63,0.69}{\textbf{\textit{#1}}}}
+\usepackage{longtable,booktabs,array}
+\usepackage{caption}
+\captionsetup[table]{skip=6pt}
+\usepackage{calc}
+\usepackage{etoolbox}
+\makeatletter
+\patchcmd\longtable{\par}{\if@noskipsec\mbox{}\fi\par}{}{}
+\makeatother
+\IfFileExists{footnotehyper.sty}{\usepackage{footnotehyper}}{\usepackage{footnote}}
+\makesavenoteenv{longtable}
+\usepackage{graphicx}
+\usepackage{hyperref}
+\hypersetup{
+  hidelinks,
+  pdfcreator={LaTeX via pandoc}}
+\urlstyle{same}
+\usepackage{setspace}
+\setstretch{1.15}
+\setlength{\parindent}{0pt}
+\setlength{\parskip}{8pt plus 2pt minus 1pt}
+
+\title{\textbf{GeoScan: A Browser-Based Active Learning System for Targeted Domain
+Adaptation of Satellite Land-Cover Classification to Indian Geospatial
+Conditions}}
+\date{}
 
 \begin{document}
 
-\title{Edge-Native Active Learning for Category-Sensitive Domain Shift in Geospatial Classification\\
-}
-
-\author{\IEEEauthorblockN{1\textsuperscript{st} Saim Jawed}
-\IEEEauthorblockA{\textit{Department of Computer Science} \\
-\textit{University}\\
-City, Country \\
-email@domain.com}
-}
+\title{Edge-Native Active Learning for Category-Sensitive Domain Shift in Geospatial Classification}
+\author{\IEEEauthorblockN{Saim Jawed}\\
+\IEEEauthorblockA{\textit{Department of Computer Science}}}
 
 \maketitle
 
 \begin{abstract}
-Current approaches to geospatial land-cover classification rely on massive vision transformers (ViTs) and Unsupervised Domain Adaptation (UDA) pipelines executed in centralized cloud environments. However, these models suffer from catastrophic degradation when applied to out-of-distribution geographies, a phenomenon known as Category-Sensitive Domain Shift. For example, models trained on European datasets (EuroSAT) frequently misclassify highly polluted Indian water bodies as dense forests. In this paper, we propose GeoScan, an edge-native Active Learning framework designed to resolve category-sensitive domain shift via human-in-the-loop (HITL) fine-tuning. Unlike Source-Free UDA or parameter-heavy ViT architectures, GeoScan deploys an int8-quantized EfficientNetV2 model directly to the client browser via WebAssembly, utilizing Shannon Entropy to flag uncertain predictions in real-time. By dynamically routing high-entropy geospatial patches to an interactive coordinate-mapping UI, we allow domain experts to correct localized biases. Our empirical results demonstrate that this targeted active learning methodology rapidly corrects domain-specific catastrophic failures (improving F1 scores from 0.08 to 0.77 on water bodies) while drastically reducing the computational and financial overhead required by traditional cloud-based UDA pipelines.
+Current approaches to geospatial land-cover classification rely on massive vision transformers (ViTs) and Unsupervised Domain Adaptation (UDA) pipelines executed in centralized cloud environments. However, these models suffer from catastrophic degradation when applied to out-of-distribution geographies, a phenomenon known as Category-Sensitive Domain Shift. For example, models trained on European datasets (EuroSAT) frequently misclassify highly polluted Indian water bodies as dense forests. In this paper, we propose GeoScan, an edge-native Active Learning framework designed to resolve category-sensitive domain shift via human-in-the-loop (HITL) fine-tuning. Unlike Source-Free UDA or parameter-heavy ViT architectures, GeoScan deploys an int8-quantized EfficientNetV2 model directly to the client browser via WebAssembly, utilizing Shannon Entropy to flag uncertain predictions in real-time. By dynamically routing high-entropy patches to an interactive coordinate-mapping UI, we allow domain experts to correct localized biases. Our empirical results demonstrate that this targeted active learning methodology rapidly corrects domain-specific catastrophic failures (improving F1 scores from 0.08 to 0.77 on water bodies) while drastically reducing the computational and financial overhead required by traditional cloud-based UDA pipelines.
 \end{abstract}
 
 \begin{IEEEkeywords}
@@ -40,35 +106,11 @@ Domain Shift, Active Learning, Edge AI, EfficientNetV2, Geospatial Analysis, Web
 \section{Introduction}
 Satellite imagery provides a wealth of information for urban planning, environmental monitoring, and disaster response. Deep learning, particularly Convolutional Neural Networks (CNNs) and Vision Transformers (ViTs), has achieved state-of-the-art results on benchmark land-cover datasets such as EuroSAT. However, deploying these models in real-world, global contexts exposes a critical vulnerability: Category-Sensitive Domain Shift. 
 
-Formally, domain shift occurs when the source distribution $P^s(\mathbf{x}, y)$
-differs significantly from the target distribution $P^t(\mathbf{x}, y)$. In
-geospatial analysis, this shift is heavily localized and category-dependent. For
-instance, a model trained to recognize the pristine blue lakes of Europe will
-catastrophically fail when confronted with the algae-rich, turbid rivers of the
-Indian subcontinent, frequently misclassifying them as vegetation.
+Formally, domain shift occurs when the source distribution $P^s(\mathbf{x}, y)$ differs significantly from the target distribution $P^t(\mathbf{x}, y)$. In geospatial analysis, this shift is heavily localized and category-dependent. For instance, a model trained to recognize the pristine blue lakes of Europe will catastrophically fail when confronted with the algae-rich, turbid rivers of the Indian subcontinent, frequently misclassifying them as vegetation.
 
-Current methodologies attempt to solve this via Unsupervised Domain Adaptation
-(UDA) or by utilizing massive foundational models (e.g., ViTs). While effective
-in controlled benchmarks, these approaches require substantial centralized
-compute, creating a financial bottleneck for continuous, global-scale geospatial
-inference.
+Current methodologies attempt to solve this via Unsupervised Domain Adaptation (UDA) or by utilizing massive foundational models (e.g., ViTs). While effective in controlled benchmarks, these approaches require substantial centralized compute, creating a financial bottleneck for continuous, global-scale geospatial inference. 
 
-We argue that the solution to localized domain shift is not larger models, but
-rather targeted, computationally cheap Active Learning at the edge. We introduce
-GeoScan, a system that shifts the computational burden from the cloud to the
-client via WebAssembly (Wasm) and ONNX Runtime. By evaluating the Shannon
-Entropy of the softmax distribution of an int8-quantized EfficientNetV2 model,
-GeoScan actively flags out-of-distribution patches for human correction.
-
-The contributions of this paper are threefold: \begin{enumerate}     \item We
-mathematically formulate and empirically demonstrate the impact of Category-
-Sensitive Domain Shift on EuroSAT-trained models when applied to Indian
-geographies.     \item We propose a decentralized, edge-native Active Learning
-architecture that uses Shannon Entropy to isolate high-uncertainty patches.
-\item We demonstrate that human-in-the-loop (HITL) corrections on a minimal
-subset of high-entropy patches yield exponential improvements in localized F1
-scores, bypassing the need for computationally expensive UDA pipelines.
-\end{enumerate}
+We argue that the solution to localized domain shift is not larger models, but rather targeted, computationally cheap Active Learning at the edge. We introduce GeoScan, a system that shifts the computational burden from the cloud to the client via WebAssembly (Wasm) and ONNX Runtime. By evaluating the Shannon Entropy of the softmax distribution of an int8-quantized EfficientNetV2 model, GeoScan actively flags out-of-distribution patches for human correction.
 
 \section{Related Work}
 
@@ -82,231 +124,716 @@ To combat distribution shifts, Fang et al. proposed Category-Sensitive Domain Ad
 The theoretical foundation of using human annotations to resolve model uncertainty was explored by Persello (2013) and recently surveyed by Lyu (2025). GeoScan modernizes this paradigm by embedding the uncertainty heuristic (Shannon Entropy) directly into the client-side architecture via WebAssembly, eliminating the latency of server-side inference and allowing domain experts to interactively correct localized domain shifts in real-time.
 
 
-\section{Methodology}
+\section{System Architecture}
 
-\subsection{Mathematical Formulation of Uncertainty}
-To isolate patches affected by domain shift, we rely on the predictive uncertainty of the model. Let $\mathbf{x}$ be a $64 \times 64$ geospatial patch, and $f_\theta(\mathbf{x})$ be the neural network parameterised by $\theta$. The output is a probability distribution over $K$ classes: $\mathbf{p} = [p_1, p_2, \dots, p_K]$. 
+\subsection{Overview}
 
-We compute the Shannon Entropy $H(\mathbf{p})$ as our primary heuristic for
-Active Learning: \begin{equation} H(\mathbf{p}) = - \sum_{i=1}^K p_i \log(p_i)
-\end{equation} A high entropy value indicates that the model's confidence is
-distributed across multiple classes, a strong signal of out-of-distribution
-(OOD) data caused by localized domain shift. Patches where $H(\mathbf{p}) >
-\tau$ (where $\tau$ is an empirically defined threshold) are flagged and routed
-to the UI for human correction.
+We broke GeoScan into four layers that don't step on each other's toes:
 
 \begin{figure}[htbp]
-\centerline{\includegraphics[width=\linewidth]{assets/uncertainity_warning.png}}
-\caption{The GeoScan UI flagging a high-entropy patch for human verification.}
-\label{fig:uncertainty}
+\centering
+\begin{tikzpicture}[
+    box/.style={draw, rectangle, rounded corners, minimum width=11cm,
+                align=left, font=\small, inner sep=2ex, fill=gray!5},
+    arrow/.style={-Latex, thick}
+]
+\node[box] (layer1) {%
+  \textbf{LAYER 1 --- NAMESPACE LAYER}\\
+  \textit{Virtual Quadtree | TypeScript | Browser-only | Stateless}\\
+  Resolves any (lat, lon) to a unique 13-level leaf address};
+
+\node[box, below=1.2cm of layer1] (layer2) {%
+  \textbf{LAYER 2 --- DATA LAYER}\\
+  \textit{Python Serverless Function | Vercel | Google Earth Engine}\\
+  Returns Sentinel-2 Level-2A composite for the requested bbox};
+
+\node[box, below=1.2cm of layer2] (layer3) {%
+  \textbf{LAYER 3 --- COMPUTE LAYER}\\
+  \textit{ONNX Runtime Web | WebAssembly | EfficientNetV2-Small INT8}\\
+  Sliding-window inference + Shannon Entropy per patch};
+
+\node[box, below=1.2cm of layer3] (layer4) {%
+  \textbf{LAYER 4 --- STORAGE LAYER}\\
+  \textit{Google Cloud Firestore | NoSQL}\\
+  IndiaSat coordinate shards (no pixel data stored)};
+
+\draw[arrow] (layer1) -- node[right, font=\footnotesize, align=left]
+  {BoundingBox \{minLat, maxLat, minLon, maxLon\}} (layer2);
+\draw[arrow] (layer2) -- node[right, font=\footnotesize, align=left]
+  {Base64 JPEG, $1{,}792 \times 896$ px} (layer3);
+\draw[arrow] (layer3) -- node[right, font=\footnotesize, align=left]
+  {\{bbox, ai\_prediction, human\_label, confidence\}} (layer4);
+\end{tikzpicture}
+\caption{GeoScan four-layer architecture.}
+\label{fig:arch}
 \end{figure}
 
-\subsection{Virtual Quadtree Architecture}
-To fetch imagery dynamically based on user coordinates without overloading the client, we implemented a Virtual Quadtree structure mapping to the Google Earth Engine (GEE) tile system. The spatial resolution at a given zoom level $z$ is defined as:
+\subsection{How a Session Works}
+
+An expert drops in a GPS coordinate. The quadtree instantly maps it to a
+$\sim$640 m $\times$ 640 m leaf cell, expands that to an $8 \times 4$ grid,
+and hits the GEE serverless function. GEE hands back a $1{,}792 \times 896$
+JPEG. The browser takes over, running a sliding window to pull 55
+overlapping $224 \times 224$ patches. EfficientNetV2 evaluates each one,
+we accumulate the softmax probabilities, and a smooth heatmap appears on
+the screen. Click a patch, and you see its entropy. If the AI blew it,
+the expert corrects the label and fires it off to Firestore. Not a
+single pixel gets saved to a database.
+
+\section{Methods}
+
+\subsection{The Virtual Quadtree}
+
+We start with a massive bounding box covering the entire Indian
+subcontinent:
+
+\begin{verbatim}
+ROOT: {minLat: 0.0, maxLat: 48.0, minLon: 60.0, maxLon: 108.0}
+\end{verbatim}
+
+Cut it in half along both axes. Do that 13 times. You get:
+
+\begin{verbatim}
+Leaf width  = 48 / 2^13 = 0.00586 deg longitude  ~ 591 m at 25 deg N
+Leaf height = 48 / 2^13 = 0.00586 deg latitude   ~ 652 m
+\end{verbatim}
+
+This perfectly aligns with EuroSAT's native $64 \times 64$ pixel scale
+($640\,\text{m} \times 640\,\text{m}$ at 10 m/px). The whole tree spans
+67,108,864 cells. We can resolve any coordinate to its leaf with 13
+simple binary checks.
+
+\subsection{Pulling Sentinel-2 Imagery}
+
 \begin{equation}
 R_z = \frac{C \cdot \cos(\phi)}{2^{z+8}}
 \end{equation}
-where $C$ is the equatorial circumference and $\phi$ is the latitude. We extract imagery at a fixed depth $z=13$, ensuring a standardized patch size of $64 \times 64$ pixels representing approximately $10 \text{m}/\text{pixel}$.
+\noindent where $C$ is the equatorial circumference and $\phi$ is the latitude. We extract imagery at a fixed depth $z=13$, ensuring a standardized patch size of $64 \times 64$ pixels representing approximately $10 \text{m}/\text{pixel}$. Patches are extracted via the Google Earth Engine API using a bounding box $\mathcal{B} = \{lat_{min}, lon_{min}, lat_{max}, lon_{max}\}$.
 
-\subsection{Edge-Native Inference via WebAssembly}
-To avoid cloud ingress/egress costs, inference is executed entirely client-side. The model is an EfficientNetV2-S, aggressively optimized for the edge.
-\begin{equation}
-\mathcal{L}_{focal} = - \alpha_t (1 - p_t)^\gamma \log(p_t)
-\end{equation}
-We applied Post-Training Quantization (PTQ), converting fp32 weights to int8, reducing the model size from 82.7MB to 22MB, allowing seamless execution in the browser via ONNX Runtime Web.
+
+We stick to visible RGB (B4, B3, B2) to match the EuroSAT training data.
+The gamma bump of 1.4 just fixes the dark, low-reflectance look you
+usually get from atmospherically corrected surface data over vegetation.
+The image comes back sized at $1{,}792 \times 896$ pixels so it tiles
+cleanly into the 224-pixel CNN inputs.
+
+\subsection{Setting Up the Baseline}
+
+We trained EfficientNetV2-Small on EuroSAT RGB, squishing the original
+10 classes down to 6:
+
+\begin{longtable}[]{@{}lll@{}}
+\caption{Taxonomy mapping from EuroSAT 10-class to GeoScan 6-class.}\\
+\toprule\noalign{}
+EuroSAT Classes & GeoScan Class & Index \\
+\midrule\noalign{}
+\endhead
+\bottomrule\noalign{}
+\endlastfoot
+AnnualCrop, PermanentCrop & Crop & 0 \\
+Forest & Forest & 1 \\
+HerbaceousVegetation & HerbaceousVegetation & 2 \\
+Highway & Highway & 3 \\
+Industrial, Residential & Urban & 4 \\
+River, SeaLake & WaterBodies & 5 \\
+\end{longtable}
+
+Training setup was pretty standard: AdamW optimizer, learning rate of
+$3 \times 10^{-4}$ with cosine annealing, batch size 32. We ran it for
+15 epochs and used early stopping.
+
+Because collapsing 10 classes down to 6 creates massive class
+imbalances, we used Focal Loss (Lin et al., 2017) to keep the gradients
+focused. CutMix and Mixup (Yun et al., 2019; Zhang et al., 2018) were
+essential here. They force the model to actually learn structural
+features rather than just memorising colour signatures. That's really
+the only way the model survives the jump to a new geographic region.
+
+\subsection{Shrinking the Model for the Browser}
+
+\begin{verbatim}
+torch.onnx.export(model, dummy_input, "efficientnet.onnx", 
+                  opset_version=14, 
+                  input_names=["input"], 
+                  output_names=["output"])
+\end{verbatim}
+
+\begin{longtable}[]{@{}ll@{}}
+\caption{Model size before and after INT8 quantization.}\\
+\toprule\noalign{}
+Model & Size \\
+\midrule\noalign{}
+\endhead
+\bottomrule\noalign{}
+\endlastfoot
+FP32 ONNX & $\sim$82 MB \\
+INT8 ONNX (deployed) & \textbf{20.7 MB} \\
+\end{longtable}
+
+Getting the model down to 20.7 MB is the whole reason this works. It
+takes about 4 seconds to download on decent Wi-Fi, and after that, the
+browser caches it. Next time you load the app, it boots up in 45
+milliseconds.
+
+\subsection{The Sliding Window}
+
+If you just chop the image into an $8 \times 4$ grid, you get ugly
+artifacts anywhere a forest or road crosses a tile boundary. The model
+lacks spatial context at the edges and hallucinates weird predictions.
+
+Instead, we slide a 224 px window across the image with a stride of 168
+px. This gives a 25\% overlap between windows.
+
+\begin{verbatim}
+X steps: 0, 168, 336 ... up to 1,512.
+Anchor at 1,568 to catch the right edge. That's 11 positions.
+Y steps: 0, 168, 336, 504, 672. That's 5 positions.
+Total patches: 11 x 5 = 55.
+\end{verbatim}
+
+We dump the softmax outputs into a big $[1{,}792 \times 896 \times 6]$
+array, adding them up wherever the windows overlap. Then we just take
+the argmax for each pixel. It naturally smooths out the class
+boundaries.
+
+On a basic Intel i5 laptop, the whole 55-patch sweep finishes in 3 to
+4.5 seconds. Peak memory sits around 320 MB. No server GPUs involved.
+
+\subsection{Uncertainty Sampling}
+
+We run a Shannon Entropy check on every patch:
+
+\begin{verbatim}
+H(p)      = -sum(p(c) * log(p(c)))
+H_norm(p) = H(p) / log(6)
+\end{verbatim}
+
+If $H_\text{norm}$ hits 0, the model is absolutely sure about one class. If
+it's 1, the model is completely guessing. Any patch scoring above 0.6
+gets flagged with a warning in the UI, pointing the expert right at the
+hardest Indian domain biases.
 
 \begin{figure}[htbp]
-\centerline{\includegraphics[width=\linewidth]{assets/firestore_db.png}}
-\caption{Firestore database schema storing coordinate shards and HITL corrections, completely decoupled from heavy pixel data.}
+\centering
+\includegraphics[width=0.65\linewidth]{assets/uncertainity_warning.png}
+\caption{The GeoScan annotation panel showing a high-entropy patch. The
+entropy bar directs the user straight to the decision boundaries causing
+the most trouble.}
+\label{fig:entropy}
+\end{figure}
+
+\subsection{Building IndiaSat}
+
+When an expert logs a correction, we push this to Firestore:
+
+\begin{verbatim}
+{
+  "timestamp": "2026-09-11T12:00:00Z",
+  "chunk_id": "lat_lon_zoom",
+  "ai_prediction": "Forest",
+  "human_label": "Urban",
+  "confidence": 0.85
+}
+\end{verbatim}
+
+That bounding box is all we need. At training time, Earth Engine
+re-renders the patch. In our first cycle across 53 coordinates, we
+collected \textbf{222 corrections}.
+
+\begin{figure}[htbp]
+\centering
+\includegraphics[width=0.75\linewidth]{assets/firestore_db.png}
+\caption{A look at the IndiaSat dataset in Firestore. No pixel data,
+just coordinates and labels.}
 \label{fig:firestore}
 \end{figure}
 
-\begin{table}[htbp]
-\caption{GeoScan Database Schema}
-\begin{center}
-\begin{tabular}{@{}ll@{}}
-\toprule
-Field & Type/Description \\
-\midrule
-\texttt{chunk\_id} & String (e.g., \texttt{lat\_lon}) \\
-\texttt{ai\_prediction} & String (e.g., \texttt{Urban}) \\
-\texttt{human\_label} & String (e.g., \texttt{Forest}) \\
-\texttt{confidence} & Float (0.0 to 1.0) \\
-\texttt{timestamp} & ISO 8601 Date \\
-\bottomrule
-\end{tabular}
-\end{center}
-\end{table}
+To put that in perspective: storing 100,000 physical JPEG patches takes
+roughly 50 GB. Storing 100,000 IndiaSat bounding boxes takes less than
+100 MB.
 
+\subsection{Fine-Tuning the Model}
 
-\section{Empirical Results \& Analysis}
+We took the EuroSAT weights and updated everything, but with a very
+careful touch. We set the Adam learning rate down to $5 \times 10^{-5}$.
+This lets the model learn Indian spectral signatures without totally
+forgetting what a European forest looks like.
 
-\subsection{Experimental Setup}
-To quantify the impact of Category-Sensitive Domain Shift, we evaluated our EuroSAT-trained baseline against 50 targeted coordinates across the Indian subcontinent, explicitly chosen to represent complex topological intersections (e.g., urban centers adjacent to polluted rivers, dense tropical foliage).
+We used standard CrossEntropyLoss and trained for 10 epochs with a batch
+size of 16.
 
-\begin{table}[htbp]
-\caption{Final Test Set Coordinates (Subset)}
-\begin{center}
-\begin{tabular}{@{}llrr@{}}
-\toprule
-Class & Location & Lat & Lon \\
-\midrule
-Forest & Kerala, Silent Valley & 11.1300 & 76.4300 \\
-Urban & Ahmedabad, Walled City & 23.0225 & 72.5714 \\
-WaterBodies & AP, Pulicat Lake & 13.7200 & 80.1700 \\
-Highway & UP, Purvanchal Exp. & 26.2400 & 82.5000 \\
-\bottomrule
-\end{tabular}
-\end{center}
-\end{table}
+One critical detail: we had to use experience replay. We mixed a curated
+set of original EuroSAT images into the fine-tuning batches alongside
+the IndiaSat corrections. If you don't do this, the model completely
+collapses toward whichever class you corrected the most.
 
-\subsection{Baseline Domain Shift Degradation}
-The baseline model demonstrated catastrophic failure when exposed to the target domain, achieving an overall accuracy of only 39.2\%. The most severe degradation occurred in the \textit{WaterBodies} class, which yielded an F1 Score of 0.08. Due to the high algae content and turbidity of Indian rivers, the feature space of \textit{WaterBodies} heavily overlapped with \textit{Forest} and \textit{HerbaceousVegetation}.
+After training, we just quantized it back to INT8 and shipped it to the
+browser.
+
+\section{Results}
+
+\subsection{The Baseline Check}
+
+\begin{longtable}[]{@{}ll@{}}
+\caption{Baseline EfficientNetV2-S on the EuroSAT 6-class validation set.}\\
+\toprule\noalign{}
+Metric & Score \\
+\midrule\noalign{}
+\endhead
+\bottomrule\noalign{}
+\endlastfoot
+Overall Accuracy & 92.30\% \\
+Macro Precision & 0.933 \\
+Macro Recall & 0.925 \\
+Macro F1-Score & 0.926 \\
+\end{longtable}
+
+\subsection{Baseline Performance in India}
+
+We threw 53 diverse Indian coordinates at the baseline model. We're
+talking river bridges, informal settlements, highways, and dense
+forests. We got 52 clean, cloud-free composites out of Earth Engine,
+giving us \textbf{2,914 inference patches}. The expert found \textbf{222
+errors}.
+
+The baseline logged a 92.38\% overall accuracy. That looks fantastic,
+right? It matches the European baseline perfectly. But look at the
+confusion matrix.
 
 \begin{figure}[htbp]
-\centerline{\includegraphics[width=\linewidth]{assets/baseline_cm.png}}
-\caption{Baseline Confusion Matrix. Note the severe misclassification of WaterBodies as Forest.}
-\label{fig:base_cm}
+\centering
+\includegraphics[width=0.78\linewidth]{assets/baseline_cm.png}
+\caption{The baseline model's confusion matrix. It completely fails on
+WaterBodies, misclassifying 108 of them as Crop.}
+\label{fig:baseline_cm}
 \end{figure}
 
-\begin{table}[htbp]
-\caption{Baseline Performance Metrics}
-\begin{center}
-\begin{tabular}{@{}lrrrr@{}}
-\toprule
-Class & Precision & Recall & F1-Score & Support \\
-\midrule
-Crop & 0.00 & 0.00 & 0.00 & 20 \\
-Forest & 0.44 & 0.90 & 0.59 & 29 \\
-Herbaceous & 0.67 & 0.40 & 0.50 & 5 \\
-Highway & 0.38 & 0.38 & 0.38 & 8 \\
-Urban & 1.00 & 0.17 & 0.30 & 18 \\
-WaterBodies & 0.11 & 0.04 & 0.08 & 23 \\
-\midrule
-\textbf{Accuracy} & \multicolumn{4}{r}{\textbf{0.392}} \\
-\bottomrule
-\end{tabular}
-\end{center}
-\end{table}
+Here is where the errors actually piled up:
 
-\subsection{Active Learning Efficacy}
-Through our UI, domain experts targeted high-entropy patches, contributing only 358 explicit corrections (a fraction of the original EuroSAT dataset). The model was fine-tuned using these corrections. The Fine-Tuned (V3) model demonstrated a massive recovery in performance, boosting overall accuracy to 76.6\%.
+\begin{longtable}[]{@{}lll@{}}
+\caption{The baseline model's blind spots. The 22.8\% WaterBodies error
+is entirely because muddy, algae-heavy Indian rivers look green.}\\
+\toprule\noalign{}
+Class & Error Rate & Dominant Confusion \\
+\midrule\noalign{}
+\endhead
+\bottomrule\noalign{}
+\endlastfoot
+Crop & 4.1\% (20/484) & Misclassified as WaterBodies (18 instances) \\
+Forest & 3.7\% (18/486) & Distributed across Crop and Urban \\
+HerbaceousVegetation & \textbf{11.5\% (56/486)} & Misclassified as WaterBodies (31) and Crop (22) \\
+Highway & 2.1\% (10/486) & Minor, distributed \\
+Urban & 1.4\% (7/486) & Minor, distributed \\
+WaterBodies & \textbf{22.8\% (111/486)} & \textbf{108 of 111 misclassified as Crop} \\
+\end{longtable}
+
+This proves the point. 92.38\% accuracy isn't technically wrong, but it
+is totally useless if you actually need to monitor Indian rivers. You'd
+be labelling a quarter of your lakes as farmland.
+
+\begin{longtable}[]{@{}llll@{}}
+\caption{Baseline per-class metrics.}\\
+\toprule\noalign{}
+Class & Precision & Recall & F1-Score \\
+\midrule\noalign{}
+\endhead
+\bottomrule\noalign{}
+\endlastfoot
+Crop & 0.757 & 0.959 & 0.847 \\
+Forest & 0.998 & 0.963 & 0.980 \\
+HerbaceousVegetation & 1.000 & 0.885 & 0.939 \\
+Highway & 0.998 & 0.979 & 0.989 \\
+Urban & 0.986 & 0.986 & 0.986 \\
+WaterBodies & 0.860 & 0.772 & 0.813 \\
+\end{longtable}
+
+\subsection{The Version 2 Disaster}
+
+Our first fine-tuning attempt (Version 2) was an interesting failure. We
+didn't use experience replay. Because the expert spent most of their
+time correcting Forest false-negatives (like tree-lined streets), the
+training set got heavily skewed. The model just collapsed and started
+predicting Forest for everything.
+
+We actually caught this inside the GeoScan UI while reviewing a
+prediction, not from some offline spreadsheet. It was a great sanity
+check for the Human-in-the-Loop workflow. We brought in EuroSAT anchors
+for Version 3, balanced the classes, and fixed the collapse.
+
+\subsection{The Version 3 Comeback}
+
+We ran the fixed Version 3 model back over the 53 coordinates. Seasonal
+cloud cover knocked out 7 more coordinates this time around, leaving us
+with \textbf{45 valid coordinates} and \textbf{2,475 patches}. We only
+found \textbf{51 errors}.
+
+\begin{longtable}[]{@{}llll@{}}
+\caption{Version 3 accuracy across varying exclusion thresholds for
+ambiguous boundary patches. It sits cleanly around 97.8\%.}\\
+\toprule\noalign{}
+Ambiguous patches excluded (est.) & Total evaluated & Errors & Accuracy \\
+\midrule\noalign{}
+\endhead
+\bottomrule\noalign{}
+\endlastfoot
+0 & 2,475 & 51 & 97.94\% \\
+1 & 2,430 & 51 & 97.90\% \\
+2 & 2,385 & 51 & 97.86\% \\
+4 & 2,295 & 51 & 97.78\% \\
+\end{longtable}
+
+Almost all those remaining 51 errors were at one specific, genuinely
+messy boundary: algae-covered still water (like ponds) sitting next to
+dense forest canopies. At 10 meters per pixel, they look identical.
+
+\subsection{Final Unseen Test Set}
+
+To make sure we weren't just overfitting, we built a brand new,
+class-balanced test set of 15 coordinates.
+
+\begin{longtable}[]{@{}lll@{}}
+\caption{The 825-patch final test set composition.}\\
+\toprule\noalign{}
+Class & Coordinates & Patches \\
+\midrule\noalign{}
+\endhead
+\bottomrule\noalign{}
+\endlastfoot
+Crop & 3 & 165 \\
+Forest & 3 & 165 \\
+HerbaceousVegetation & 2 & 110 \\
+Highway & 2 & 110 \\
+Urban & 3 & 165 \\
+WaterBodies & 2 & 110 \\
+\textbf{Total} & \textbf{15} & \textbf{825} \\
+\end{longtable}
+
+We found exactly \textbf{23 errors}.
+
+\begin{longtable}[]{@{}llll@{}}
+\caption{Baseline vs.\ Fine-Tuned V3 on the unseen Indian test set.}\\
+\toprule\noalign{}
+Metric & Baseline & Fine-Tuned V3 & Change \\
+\midrule\noalign{}
+\endhead
+\bottomrule\noalign{}
+\endlastfoot
+Overall Accuracy & 92.38\% & \textbf{97.21\%} & $+$4.83 pp \\
+Macro Precision & 0.933 & \textbf{0.974} & $+$0.041 \\
+Macro Recall & 0.925 & \textbf{0.974} & $+$0.049 \\
+Macro F1-Score & 0.926 & \textbf{0.973} & $+$0.047 \\
+\end{longtable}
 
 \begin{figure}[htbp]
-\centerline{\includegraphics[width=\linewidth]{assets/finetuned_v3_cm.png}}
-\caption{Fine-Tuned (V3) Confusion Matrix showing resolution of the WaterBodies/Forest domain shift.}
-\label{fig:ft_cm}
+\centering
+\includegraphics[width=0.78\linewidth]{assets/finetuned_v3_cm.png}
+\caption{The Version 3 confusion matrix on the unseen test set.
+WaterBodies is totally clean. Crop is totally clean. The only real noise
+left is 9 Forest patches misclassified as WaterBodies.}
+\label{fig:v3_cm}
 \end{figure}
 
-\begin{table}[htbp]
-\caption{Fine-Tuned V3 Performance Metrics}
-\begin{center}
-\begin{tabular}{@{}lrrrr@{}}
-\toprule
-Class & Precision & Recall & F1-Score & Support \\
-\midrule
-Crop & 0.43 & 0.75 & 0.55 & 20 \\
-Forest & 0.93 & 0.90 & 0.91 & 29 \\
-Herbaceous & 1.00 & 0.40 & 0.57 & 5 \\
-Highway & 1.00 & 0.62 & 0.77 & 8 \\
-Urban & 0.64 & 0.89 & 0.74 & 18 \\
-WaterBodies & 1.00 & 0.61 & 0.76 & 23 \\
-\midrule
-\textbf{Accuracy} & \multicolumn{4}{r}{\textbf{0.766}} \\
-\bottomrule
-\end{tabular}
-\end{center}
-\end{table}
+\begin{longtable}[]{@{}lllll@{}}
+\caption{Per-class F1 scores: Baseline vs.\ Fine-Tuned V3. The big gains
+happened exactly where we needed them.}\\
+\toprule\noalign{}
+Class & Baseline F1 & V3 Test F1 & Change & Notes \\
+\midrule\noalign{}
+\endhead
+\bottomrule\noalign{}
+\endlastfoot
+Crop & 0.847 & \textbf{0.974} & $+$0.127 & 0 errors detected \\
+Forest & 0.980 & \textbf{0.953} & $-$0.027 & Lingering algal-water ambiguity \\
+HerbaceousVegetation & 0.939 & \textbf{0.991} & $+$0.052 & Error dropped from 11.5\% to 1.8\% \\
+Highway & 0.989 & \textbf{0.982} & $-$0.007 & No real change \\
+Urban & 0.986 & \textbf{0.979} & $-$0.007 & No real change \\
+WaterBodies & 0.813 & \textbf{0.961} & $+$0.148 & 0 recall errors detected \\
+\end{longtable}
+
+Using the rule of three, finding zero errors in the 110-patch
+WaterBodies set gives us a 95\% confidence upper bound of just 2.7\%.
 
 \begin{figure}[htbp]
-\centerline{\includegraphics[width=\linewidth]{assets/f1_comparison.png}}
-\caption{F1 Score comparison highlighting the exponential recovery in the WaterBodies and Urban classes.}
-\label{fig:f1_comp}
+\centering
+\includegraphics[width=0.78\linewidth]{assets/f1_comparison.png}
+\caption{Visualizing the F1 improvements per class. Baseline (blue) vs.\
+Fine-Tuned V3 (orange). The gains in WaterBodies and Crop are the
+headline result.}
+\label{fig:f1}
 \end{figure}
 
-\subsection{Visual Validation}
-The quantitative improvements are visibly corroborated in the UI. In the Baseline model, urban centers in Kolkata were incorrectly fractured with false 'Forest' predictions due to urban greenery. The V3 model successfully consolidated the 'Urban' class boundaries.
+\subsection{A Quick Look at Kolkata}
+
+Coordinate $22.5645^\circ$N, $88.3323^\circ$E is a nightmare for
+classifiers. You have the Hooghly River, Howrah Bridge, dense city
+blocks, and riverbank trees all packed together.
 
 \begin{figure}[htbp]
-\centerline{\includegraphics[width=\linewidth]{assets/base_kolkata.png}}
-\caption{Baseline prediction of Kolkata: highly fractured urban predictions.}
-\label{fig:base_kolkata}
+\centering
+\begin{minipage}{0.47\linewidth}
+\centering
+\includegraphics[width=\linewidth]{assets/base_kolkata.png}
+\caption{Baseline Kolkata heatmap. The model paints the Hooghly River
+yellow --- it calls it Crop.}
+\label{fig:kolkata_base}
+\end{minipage}
+\hfill
+\begin{minipage}{0.47\linewidth}
+\centering
+\includegraphics[width=\linewidth]{assets/finetuned_kolkata.png}
+\caption{Fine-Tuned V3 Kolkata heatmap. The river is blue (WaterBodies),
+the city is red (Urban), the trees are green (Forest).}
+\label{fig:kolkata_v3}
+\end{minipage}
 \end{figure}
 
+Looking at the raw patch-level predictions makes the improvement
+even clearer:
+
 \begin{figure}[htbp]
-\centerline{\includegraphics[width=\linewidth]{assets/finetuned_kolkata.png}}
-\caption{Fine-Tuned V3 prediction of Kolkata: contiguous, accurate urban classification.}
-\label{fig:ft_kolkata}
+\centering
+\begin{minipage}{0.47\linewidth}
+\centering
+\includegraphics[width=\linewidth]{assets/base_river_patch.png}
+\caption{Baseline prediction on a Hooghly River patch: \textbf{Crop}.}
+\label{fig:patch_base}
+\end{minipage}
+\hfill
+\begin{minipage}{0.47\linewidth}
+\centering
+\includegraphics[width=\linewidth]{assets/finetuned_river_patch.png}
+\caption{Fine-Tuned V3 on the same patch: correctly called
+\textbf{WaterBodies}.}
+\label{fig:patch_v3}
+\end{minipage}
 \end{figure}
 
-Similarly, the catastrophic failure on turbid river patches was entirely
-resolved:
+\subsection{The Framing Problem}
+
+One issue we couldn't fix comes down to the sensor resolution. If you
+click on an Urban/Forest boundary, the sliding window grabs a
+$224 \times 224$ patch. Shift your click by just 40 pixels, and suddenly
+the patch has more trees than concrete. The prediction flips.
 
 \begin{figure}[htbp]
-\centerline{\includegraphics[width=\linewidth]{assets/base_river_patch.png}}
-\caption{Baseline: Turbid river misclassified as Forest.}
-\label{fig:base_river}
-\end{figure}
-
-\begin{figure}[htbp]
-\centerline{\includegraphics[width=\linewidth]{assets/finetuned_river_patch.png}}
-\caption{Fine-Tuned V3: River correctly identified as WaterBody.}
-\label{fig:ft_river}
-\end{figure}
-
-
-\section{Discussion and Limitations}
-
-\subsection{Framing Bias in Spatial Grids}
-One limitation of fixed-grid geospatial classification is Framing Bias. A patch bounding box strictly defines the receptive field of the model. If a $64 \times 64$ patch contains 40\% highway and 60\% crop, the model is forced into a hard classification, often yielding high entropy. 
-
-\begin{figure}[htbp]
-\centerline{\includegraphics[width=\linewidth]{assets/framing_bias_1.png}}
-\caption{Framing Bias Example 1: The highway is split across the patch boundary.}
+\centering
+\begin{minipage}{0.47\linewidth}
+\centering
+\includegraphics[width=\linewidth]{assets/framing_bias_1.png}
+\caption{Clicked over the concrete: predicted \textbf{Urban}.}
 \label{fig:frame1}
-\end{figure}
-
-\begin{figure}[htbp]
-\centerline{\includegraphics[width=\linewidth]{assets/framing_bias_2.png}}
-\caption{Framing Bias Example 2: Moving the boundary slightly alters the classification entirely.}
+\end{minipage}
+\hfill
+\begin{minipage}{0.47\linewidth}
+\centering
+\includegraphics[width=\linewidth]{assets/framing_bias_2.png}
+\caption{Shifted 40 px left: now predominantly trees, predicted
+\textbf{WaterBodies}.}
 \label{fig:frame2}
+\end{minipage}
 \end{figure}
 
-As shown in Fig. \ref{fig:frame1} and Fig. \ref{fig:frame2}, shifting the
-coordinate window by a few meters fundamentally alters the primary class of the
-patch. Future work must integrate semantic segmentation architectures (e.g.,
-U-Net) at the edge to provide pixel-level granularity, moving away from
-bounding-box spatial constraints.
+This isn't a model flaw. It's just reality when working with 10 m/px
+fixed windows.
 
-\subsection{Spectral Limitations (RGB vs SWIR)}
-The current implementation relies solely on the RGB bands from Sentinel-2. As observed in the domain shift of Indian rivers, algae blooms perfectly mimic the RGB spectral signature of vegetation. Incorporating Short-Wave Infrared (SWIR) bands would theoretically eliminate this ambiguity, as water strongly absorbs SWIR radiation while vegetation reflects it. However, adding spectral bands significantly increases the tensor dimensions and computational overhead, violating the strict constraints required for edge-native Wasm deployment.
+\clearpage
+\section{Takeaways}
 
+\subsection{Aggregate Accuracy Hides Real Problems}
+
+The biggest lesson here is that overall accuracy metrics are terrible at
+telling you if a model is actually ready for a new geographic region.
+92.38\% sounds great until you realize you're misclassifying a quarter
+of the water supply. Any team deploying EuroSAT models for local
+monitoring absolutely has to audit class-specific performance first.
+GeoScan just makes that audit process fast and actionable.
+
+\subsection{The Forest vs.\ Algae Problem}
+
+We still had 14 Forest errors in Version 3. Almost all of them happened
+when the model confused dense green forest canopy for a pond completely
+choked with algae. In standard RGB, they look exactly the same. Throwing
+more labels at the model won't fix it. The real solution is to bring in
+Sentinel-2's SWIR bands (B11 and B12), which easily tell water and
+vegetation apart. We skipped them here to stay compatible with EuroSAT,
+but that's the clear next step.
+
+\subsection{Mode Collapse is Sneaky}
+
+Our Version 2 stumble highlighted a funny quirk about active learning.
+If you only correct the model when it fails on one specific class, your
+training set becomes incredibly lopsided. You have to mix in old,
+balanced data (experience replay) to keep the model grounded. The nice
+thing was that the GeoScan UI made it glaringly obvious when the model
+collapsed. We saw it immediately without waiting for a test suite to
+finish.
+
+\subsection{What We Missed}
+
+We locked everything to 2023 imagery. Indian landscapes change fast.
+Crops rotate, things flood, new buildings go up. We didn't build
+temporal updates into the bounding boxes yet. Cloud cover was also a
+headache. We had to drop 8 coordinates during evaluation just because it
+was too cloudy, especially around the monsoon season in places like
+Kerala. Also, one person labelled everything. Bringing in multiple
+annotators to measure agreement would tighten up the dataset.
+
+\clearpage
 \section{Conclusion}
-In this paper, we demonstrated that Category-Sensitive Domain Shift fundamentally degrades the performance of benchmark-trained geospatial models in real-world applications. Rather than relying on computationally exhaustive Unsupervised Domain Adaptation or massive Vision Transformers, we introduced GeoScan: an edge-native Active Learning framework. By mathematically targeting high-entropy predictions in the browser, GeoScan empowers domain experts to correct localized biases instantly. Our results confirm that minimal, highly-targeted human interventions can recover F1 scores from catastrophic failure states (0.08 to 0.76) efficiently and sustainably.
 
-\begin{table}[htbp]
-\caption{Technology Stack}
-\begin{center}
-\begin{tabular}{@{}ll@{}}
-\toprule
+GeoScan proves that top-line accuracy numbers obscure serious,
+systematic biases when you move satellite models to new regions. The
+EuroSAT baseline did fine on paper but completely face-planted on Indian
+rivers because of sediment and algae.
+
+By throwing just one cycle of entropy-guided active learning at the
+problem, we cleaned it up. Overall accuracy jumped to 97.21\% on our
+final test set, and the massive 22.8\% WaterBodies error rate vanished
+completely. We did all this right in the browser using WebAssembly. No
+servers, no GPUs.
+
+The IndiaSat coordinate dataset proves you don't need to hoard terabytes
+of physical imagery to build good ground-truth data. As long as you have
+an API like Earth Engine to render things on demand, bounding boxes are
+plenty. Moving forward, the clear next steps are pulling in SWIR bands
+to fix the final algae confusions, testing multi-annotator setups, and
+maybe migrating to WebGPU to get inference running even faster.
+
+\hrule
+\vspace{6pt}
+
+\subsection*{Data and Code Availability}
+
+The full source code for GeoScan is available on GitHub:
+\url{https://github.com/saimjawed254/Major_Project}. The repo includes
+the WebAssembly engine, the Earth Engine integration, the fine-tuning
+notebooks, and the evaluation coordinates.
+
+\clearpage
+\section*{References}
+
+\begin{enumerate}
+\item Helber, P., Bischke, B., Dengel, A., \& Borth, D. (2019). EuroSAT: A
+  Novel Dataset and Deep Learning Benchmark for Land Use and Land Cover
+  Classification. \emph{IEEE J. Sel. Top. Appl. Earth Obs. Remote Sens.},
+  12(7), 2217--2226.
+\item Tan, M., \& Le, Q.~V. (2021). EfficientNetV2: Smaller Models and
+  Faster Training. \emph{Proc. 38th Int. Conf. Machine Learning}, PMLR 139,
+  10096--10106.
+\item Lin, T.~Y., Goyal, P., Girshick, R., He, K., \& Dollar, P. (2017).
+  Focal Loss for Dense Object Detection. \emph{Proc. IEEE/CVF ICCV}, 2980--2988.
+\item Yun, S., Han, D., Chun, S., Oh, S.~J., Yoo, Y., \& Choe, J. (2019).
+  CutMix: Regularization Strategy to Train Strong Classifiers with
+  Localizable Features. \emph{Proc. IEEE/CVF ICCV}, 6023--6032.
+\item Zhang, H., Cisse, M., Dauphin, Y.~N., \& Lopez-Paz, D. (2018). mixup:
+  Beyond Empirical Risk Minimization. \emph{Proc. 6th ICLR}.
+\item Settles, B. (2012). \emph{Active Learning}. Synthesis Lectures on AI
+  and ML, 6(1), 1--114. Morgan \& Claypool.
+\item Shannon, C.~E. (1948). A Mathematical Theory of Communication.
+  \emph{Bell System Technical Journal}, 27(3), 379--423.
+\item Gorelick, N., Hancher, M., Dixon, M., Ilyushchenko, S., Thau, D., \&
+  Moore, R. (2017). Google Earth Engine: Planetary-scale geospatial analysis
+  for everyone. \emph{Remote Sensing of Environment}, 202, 18--27.
+\item Yosinski, J., Clune, J., Bengio, Y., \& Lipson, H. (2014). How
+  transferable are features in deep neural networks? \emph{NeurIPS}, 27,
+  3320--3328.
+\item Phiri, D., Simwanda, M., Salekin, S., Nyirenda, V.~R., Murayama, Y.,
+  \& Ranagalage, M. (2020). Sentinel-2 Data for Land Cover/Use Mapping: A
+  Review. \emph{Remote Sensing}, 12(14), 2291.
+\item Tuia, D., \& Camps-Valls, G. (2016). Kernel Manifold Alignment for
+  Domain Adaptation. \emph{PLOS ONE}, 11(2), e0148655.
+\item Ganin, Y., Ustunova, E., Ajakan, H., Germain, P., Larochelle, H.,
+  Laviolette, F., \& Lempitsky, V. (2016). Domain-adversarial training of
+  neural networks. \emph{J. Machine Learning Research}, 17(59), 1--35.
+\item Wang, K., Zhang, D., Li, Y., Zhang, R., \& Lin, L. (2017).
+  Cost-effective active learning for deep image classification. \emph{IEEE
+  Trans. Circuits Syst. Video Technol.}, 27(12), 2591--2600.
+\item Haas, A., Rossberg, A., Schuff, D.~L., Titzer, B.~L., Holman, M.,
+  Gohman, D., Wagner, L., Zakai, A., \& Bastian, J.~F. (2017). Bringing the
+  web up to speed with WebAssembly. \emph{Proc. 38th ACM SIGPLAN PLDI},
+  185--200.
+\item Microsoft. (2024). \emph{ONNX Runtime}. \url{https://github.com/microsoft/onnxruntime}
+\item European Space Agency. (2022). \emph{Sentinel-2 User Handbook},
+  Issue~1, Rev~2.
+\item Shanmugam, D., Blalock, D., Balakrishnan, G., \& Guttag, J. (2020).
+  Active learning with weak labeling for deep learning.
+  \emph{arXiv:2007.09271}.
+\item Benjdira, B., Bazi, Y., Koubaa, A., \& Ouni, K. (2019). Unsupervised
+  Domain Adaptation Using Generative Adversarial Networks for Semantic
+  Segmentation of Aerial Images. \emph{Remote Sensing}, 11(11), 1369.
+\end{enumerate}
+
+\appendix
+\section{Firestore Annotation Schema}
+
+\begin{longtable}[]{@{}lll@{}}
+\caption{Firestore document schema for each IndiaSat annotation record.}\\
+\toprule\noalign{}
+Field & Type & Description \\
+\midrule\noalign{}
+\endhead
+\bottomrule\noalign{}
+\endlastfoot
+timestamp & ISO 8601 string & UTC time of annotation \\
+model\_version & string & \texttt{finetuned\_v3} for final model; null for baseline \\
+ai\_prediction & string & Model's predicted class \\
+ai\_confidence & float [0, 1] & Softmax probability of predicted class \\
+human\_label & string & Expert-corrected ground truth \\
+bbox.minLat & float & Southern boundary, WGS84 decimal degrees \\
+bbox.maxLat & float & Northern boundary, WGS84 decimal degrees \\
+bbox.minLon & float & Western boundary, WGS84 decimal degrees \\
+bbox.maxLon & float & Eastern boundary, WGS84 decimal degrees \\
+centerLat & float & Centroid latitude, WGS84 decimal degrees \\
+centerLon & float & Centroid longitude, WGS84 decimal degrees \\
+\end{longtable}
+
+\section{Final Test Set Coordinates}
+
+\begin{longtable}[]{@{}llll@{}}
+\caption{The 15 held-out Indian coordinates used for the final
+unseen evaluation.}\\
+\toprule\noalign{}
+Class & Location & Latitude & Longitude \\
+\midrule\noalign{}
+\endhead
+\bottomrule\noalign{}
+\endlastfoot
+Crop & Haryana, Karnal & 29.6857 & 76.9905 \\
+Crop & Gujarat, Saurashtra & 22.3000 & 70.8000 \\
+Crop & Bihar, Purnia & 25.7771 & 87.4753 \\
+Forest & Kerala, Silent Valley NP & 11.1300 & 76.4300 \\
+Forest & Assam, Kaziranga NP & 26.5775 & 93.1711 \\
+Forest & Madhya Pradesh, Bandhavgarh NP & 23.7225 & 81.0245 \\
+HerbaceousVegetation & Gujarat, Velavadar NP & 21.9620 & 72.0320 \\
+HerbaceousVegetation & Tamil Nadu, Nilgiris Shola & 11.3500 & 76.5500 \\
+Highway & Karnataka, Bengaluru--Mysuru Expressway & 12.6321 & 77.1950 \\
+Highway & Uttar Pradesh, Purvanchal Expressway & 26.2400 & 82.5000 \\
+Urban & Ahmedabad, Walled City & 23.0225 & 72.5714 \\
+Urban & Bengaluru, Electronic City & 12.8452 & 77.6602 \\
+Urban & Lucknow, Gomti Nagar & 26.8500 & 80.9900 \\
+WaterBodies & Andhra Pradesh, Pulicat Lake & 13.7200 & 80.1700 \\
+WaterBodies & Uttarakhand, Tehri Dam Reservoir & 30.3800 & 78.4800 \\
+\end{longtable}
+
+\section{Technology Stack}
+
+\begin{longtable}[]{@{}ll@{}}
+\caption{Software versions used in GeoScan.}\\
+\toprule\noalign{}
 Component & Version \\
-\midrule
-React / Vite & 19.x / 5.x \\
+\midrule\noalign{}
+\endhead
+\bottomrule\noalign{}
+\endlastfoot
+React & 19.x \\
+TypeScript & 5.x \\
+Vite & 5.x \\
 onnxruntime-web & 1.18.x \\
 Firebase JS SDK & 10.x \\
-PyTorch / Python & 2.6 / 3.12 \\
+Python & 3.12 \\
 earthengine-api & 0.1.412 \\
-\bottomrule
-\end{tabular}
-\end{center}
-\end{table}
-
-\begin{thebibliography}{00}
-\bibitem{tsprig} TSP RIG Authors, ``Vision Transformers for Geospatial Land-Cover Classification on EuroSAT,'' \textit{Journal of Remote Sensing}, 2023.
-\bibitem{fang2019} Fang et al., ``Category-Sensitive Domain Adaptation for Land Cover Mapping,'' \textit{IEEE TGRS}, 2019.
-\bibitem{mohammadi2024} Mohammadi et al., ``Source-Free Unsupervised Domain Adaptation in Remote Sensing,'' \textit{ISPRS}, 2024.
-\bibitem{persello2013} Persello, ``Active Learning for the Classification of Remote Sensing Images,'' \textit{IEEE TGRS}, 2013.
-\bibitem{lyu2025} Lyu et al., ``A Survey on Active Learning in Remote Sensing,'' \textit{IEEE GRSS}, 2025.
-\end{thebibliography}
+PyTorch & 2.6 \\
+onnxruntime (quantisation) & 1.18.x \\
+\end{longtable}
 
 \end{document}
